@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.mapper.ProductMapper">
+
+	<select id="getCategoryList" resultType="com.docmall.domain.CategoryVO">
+		
+		select 
+			cat_code,cat_prtcode,cat_name
+		FROM 
+			category_tbl
+	    WHERE 
+	    	cat_prtcode IS NULL
+	
+	</select>
+	
+	<select id="subCategoryList" resultType="com.docmall.domain.CategoryVO">
+	
+		select 
+			cat_code,cat_prtcode,cat_name
+		FROM 
+			category_tbl
+	    WHERE 
+	    	cat_prtcode = #{cat_code}
+	
+	</select>
+	
+	<!-- 검색조건 작업 : include 참조 -->
+	<!-- mapper 파라미터가 2개일경우 구분자로 cri. 써준다.-->
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR"> <!-- AND뒤에 공백 --> 
+		 <foreach collection="cri.typeArr" item="type">
+		 	<trim prefix="OR">
+		 		<choose>
+		 			<when test="type == 'N'.toString()">
+		 				pro_name like '%' || #{cri.keyword} || '%'
+		 			</when>
+		 			<when test="type == 'P'.toString()">
+		 				pro_publisher like '%' || #{cri.keyword} || '%'
+		 			</when>
+		 			
+		 		</choose>
+		 	</trim>
+		 </foreach>
+		</trim>
+	</sql>
+	
+	<select id="pro_list" resultType="com.docmall.domain.ProductVO">
+	
+		<![CDATA[
+		SELECT 
+			RN, pro_num, cat_code, pro_name, pro_price, pro_discount, pro_publisher, pro_content, pro_up_folder, pro_img, pro_amount, pro_buy, pro_date, pro_updatedate
+		FROM 
+			( 
+        		SELECT /*+INDEX_DESC(product_tbl pk_pro_num) */ 
+        			ROWNUM RN, pro_num, cat_code, pro_name, pro_price, pro_discount, pro_publisher, pro_content, pro_up_folder, pro_img, pro_amount, pro_buy, pro_date, pro_updatedate
+        		FROM PRODUCT_TBL
+        		
+        		where
+        			cat_code = #{cat_code}
+        		and 
+        			pro_buy = 'Y'
+        		and
+        ]]>	
+        	<include refid="criteria"></include>	
+        	
+        	       <!-- mapper 파라미터가 2개일경우 구분자로 cri. 써준다.-->
+        <![CDATA[	
+        
+        			ROWNUM <= (#{cri.pageNum} * #{cri.amount}) 
+			)
+		WHERE 
+			RN > ((#{cri.pageNum} - 1) * #{cri.amount})
+			
+		]]>
+	
+	</select>
+	
+	<select id="pro_count" resultType="int">
+	
+		select 
+			count(*)
+		from 
+			product_tbl
+		where
+			cat_code = #{cat_code}
+		and
+			pro_buy = 'Y'
+		and
+				
+		<include refid="criteria"></include>
+		pro_num > 0
+	
+	</select>
+	
+	<select id="pro_detail" resultType="com.docmall.domain.ProductVO">
+	
+		select
+			pro_num,cat_code,pro_name,pro_price,pro_discount,pro_publisher,pro_content,pro_img,pro_up_folder, pro_amount,pro_buy
+		from
+			product_tbl
+		where
+			pro_num = #{pro_num}
+	
+	</select>
+
+</mapper>

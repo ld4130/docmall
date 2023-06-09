@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: "LacosteSans";
+    src: url("../fonts/LacosteSans.woff") format("woff");
+    font-weight: normal;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "LacosteSansBold";
+    src: url("../fonts/LacosteSansBold.woff") format("woff");
+    font-weight: normal;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "LacosteSansLight";
+    src: url("../fonts/LacosteSansLight.woff") format("woff");
+    font-weight: normal;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "LacosteSansCondensedBold";
+    src: url("../fonts/LacosteSansCondensedBold.woff") format("woff");
+    font-weight: normal;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "LacosteSansCondensedLight";
+    src: url("../fonts/LacosteSansCondensedLight.woff") format("woff");
+    font-weight: normal;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "LacosteSansCondensedThin";
+    src: url("../fonts/LacosteSansCondensedThin.ttf") format("ttf");
+    font-weight: normal;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "LacosteSansLightItalic";
+    src: url("../fonts/LacosteSansLightItalic.woff") format("woff");
+    font-weight: normal;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "LacosteSansItalic";
+    src: url("../fonts/LacosteSansItalic.woff") format("woff");
+    font-weight: normal;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "LacosteFontIcons";
+    src: url("../fonts/LacosteFontIcons.woff") format("woff");
+    font-weight: normal;
+    font-style: normal
+}
+
+/*# sourceMappingURL=fonts.css.map */
